@@ -1,7 +1,7 @@
 # FrostBot
 FrostBot Repo
 
-#Installation
+Installation
 1) Build your jar after adding bot token in Ref. Include dependencies while doing so.  
 2) Drag it to anywhere on your server PC where it can access the scripts you want
 3) in the same directory, make a text document called config.properties

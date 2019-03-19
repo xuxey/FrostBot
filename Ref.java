@@ -6,7 +6,6 @@ public class Ref
 {
     public static final String token = "Insert-token-here";
     protected static JDA jda;
-    protected static String password = "4";
-    protected static String filepath = "D";
-    protected static String filename = "h";
+    protected static String filepath = "";
+    protected static String filename = "";
 }

@@ -36,7 +36,7 @@ public class App extends ListenerAdapter
 		String token = properties.getProperty("token");
 		String ownerID = properties.getProperty("ownerID");
 		String prefix = ">>";
-		String display = "Basz's tralala";
+		String display = "";
 		display = properties.getProperty("display");
 		prefix = properties.getProperty("prefix");
 		fileReader.close();

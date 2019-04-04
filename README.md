@@ -1,7 +1,7 @@
 # FrostBot
 FrostBot Repo
 
-##Installation
+### Installing
 1)Download Frostbot [here](https://drive.google.com/file/d/13_Rdzm7uV3kti_c0UTcge7BvsSc_SkUv/view?usp=sharing)
 2) Drag it to anywhere on your server PC where it can access the scripts you want
 3) in the same directory, make a text document called config.properties

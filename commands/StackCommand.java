@@ -5,6 +5,8 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.xuxe.frostBot.Ref;
 import net.dv8tion.jda.core.Permission;
 
+import java.util.logging.Logger;
+
 public class StackCommand extends Command
 {
     public StackCommand()
@@ -16,6 +18,7 @@ public class StackCommand extends Command
     }
     @Override
     protected void execute(CommandEvent commandEvent) {
+        Logger.getGlobal().info("User "+commandEvent.getAuthor().getName()+"#"+commandEvent.getAuthor().getDiscriminator()+" used stack command");
         Exception exception = new Ref().getException();
         if (exception != null) {
             commandEvent.reply("Stack trace ->");

@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class StartCommand extends Command
 {
@@ -20,15 +21,15 @@ public class StartCommand extends Command
         this.help = "starts pre defined script";
         this.name = "start";
         this.aliases = new String[]{"s", "run", "commence"};
-        this.userPermissions = new Permission[Permission.VIEW_AUDIT_LOGS.getOffset()];
     }
 
     @Override
-    protected void execute(CommandEvent event)
+    protected void execute(CommandEvent commandEvent)
     {
+        Logger.getGlobal().info("User "+commandEvent.getAuthor().getName()+"#"+commandEvent.getAuthor().getDiscriminator()+" used start command.\nThey used the trigger: "+commandEvent.getMessage().getContentRaw());
         Ref ref = new Ref();
-        User author = event.getAuthor();
-        String messageContent = event.getMessage().getContentRaw();
+        User author = commandEvent.getAuthor();
+        String messageContent = commandEvent.getMessage().getContentRaw();
         String[] command = messageContent.split(" ");
         String file = command[1].trim();
         try {
@@ -36,28 +37,35 @@ public class StartCommand extends Command
             prop.load(f);
             String filepath = prop.getProperty(file + "path");
             String filename = prop.getProperty(file + "name");
+            f.close();
+            prop.clear();
             try {
-                ProcessBuilder p = new ProcessBuilder();
-                p.directory(new File(filepath));
-                p.command(filename);
-                //Process process = p.start();
-                System.out.println("filename: " + filename + "\nfilepath: " + filepath);
-                System.out.println("command: " + "cmd /c " + filename);
-                Process process = Runtime.getRuntime().exec("cmd /c start \"\" " + filename, null, new File("" + filepath));
-                event.reply(file + " should now be started.");
-                System.out.println("User: "+author.getName()+"#"+author.getDiscriminator()+" ran >>start "+file);
+                Process p = Runtime.getRuntime().exec("cmd /c start \"\" " + filename, null, new File("" + filepath));
+
+                if(p.isAlive()) {
+                    Logger.getGlobal().info(file + " was started.");
+                    commandEvent.reply(file + " should now be started.");
+                }
+                else
+                {
+                    commandEvent.reply("Could not start "+file);
+                }
+
+
+
+
             } catch (IOException io) {
                 io.printStackTrace();
             }
 
         } catch (FileNotFoundException fnf) {
-            event.reply("File not found. Recheck your spelling and try again.");
+            commandEvent.reply("File not found. Recheck your spelling and try again.");
             ref.setException(fnf);
 
         } catch (IOException e1) {
-            event.reply("Something went wrong: " + e1.getLocalizedMessage());
+            commandEvent.reply("Something went wrong: " + e1.getLocalizedMessage());
             ref.setException(e1);
-            event.reply("Use >>stack for more info.");
+            commandEvent.reply("Use >>stack for more info.");
         }
     }
 }
